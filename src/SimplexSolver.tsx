@@ -93,6 +93,33 @@ export default function SimplexSolver() {
     }
   });
 
+  const handleClear = () => {
+    const defaultNumVariables = 2;
+    const defaultNumConstraints = 1;
+
+    // Update signals to their default states
+    setNumVariables(defaultNumVariables);
+    setNumConstraints(defaultNumConstraints);
+
+    const defaultObjectiveCoefficients = Array(defaultNumVariables).fill(0);
+    const defaultConstraintCoefficients = Array(defaultNumConstraints).fill(null).map(() => Array(defaultNumVariables).fill(0));
+    const defaultConstraintValues = Array(defaultNumConstraints).fill(0);
+
+    setObjectiveCoefficients(defaultObjectiveCoefficients);
+    setConstraintCoefficients(defaultConstraintCoefficients);
+    setConstraintValues(defaultConstraintValues);
+
+    setIterations([]);
+    setOptimalValues(null);
+
+    // Explicitly set localStorage to the default values
+    localStorage.setItem(LOCAL_STORAGE_KEYS.NUM_VARIABLES, defaultNumVariables.toString());
+    localStorage.setItem(LOCAL_STORAGE_KEYS.NUM_CONSTRAINTS, defaultNumConstraints.toString());
+    localStorage.setItem(LOCAL_STORAGE_KEYS.OBJECTIVE_COEFFICIENTS, JSON.stringify(defaultObjectiveCoefficients));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.CONSTRAINT_COEFFICIENTS, JSON.stringify(defaultConstraintCoefficients));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.CONSTRAINT_VALUES, JSON.stringify(defaultConstraintValues));
+  };
+
   // Effects to save to localStorage and resize arrays
   createEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEYS.NUM_VARIABLES, numVariables().toString());
@@ -384,15 +411,16 @@ export default function SimplexSolver() {
                 {j() < coeffs.length - 1 ? <span>+</span> : null}
               </>
             }</For>
-            <span>&lt;=</span>
-            <input type="number" value={constraintValues()[i()] || 0} onInput={(e) => handleConstraintValueChange(i(), parseFloat(e.target.value))} class="w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-1" />
+            <span>&le;</span>
+            <input type="number" value={constraintValues()[i()]} onInput={(e) => handleConstraintValueChange(i(), parseFloat(e.target.value))} class="w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-1" />
           </div>
         }</For>
-      </div>
+      </div> {/* End of Problem Setup div */}
 
-      <button onClick={solve} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-        Solve
-      </button>
+      <div class="my-4 flex space-x-2">
+        <button onClick={solve} class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Solve</button>
+        <button onClick={handleClear} class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">Clear</button>
+      </div>
 
       <For each={iterations()}>{(iter, index) =>
         <div class="mb-6 p-4 border rounded">
