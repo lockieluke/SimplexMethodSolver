@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"args": [
+				"dev"
+			],
+			"command": "bun",
+			"group": "build",
+			"isBackground": true,
+			"label": "Run Development Server",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"type": "shell"
+		}
+	]
+}
