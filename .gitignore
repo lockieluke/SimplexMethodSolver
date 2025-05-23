@@ -1,5 +1,7 @@
 dist
 .wrangler
+.wrangler
+.dev.vars*
 .output
 .vercel
 .netlify

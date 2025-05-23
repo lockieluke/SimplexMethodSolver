@@ -7,15 +7,19 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "deploy": "bun run build && wrangler pages deploy dist"
   },
   "license": "MIT",
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.2.4",
+    "@cloudflare/workers-types": "^4.20250523.0",
     "@tailwindcss/vite": "^4.0.7",
     "tailwindcss": "^4.0.7",
     "typescript": "^5.7.2",
     "vite": "^6.0.0",
-    "vite-plugin-solid": "^2.11.6"
+    "vite-plugin-solid": "^2.11.6",
+    "wrangler": "^4.16.1"
   },
   "dependencies": {
     "solid-js": "^1.9.5"
